@@ -47,11 +47,7 @@
         <span style="margin-right:20px;">用户名: admin</span>
         <span> 密码: any</span>
       </div>
-      <div class="tips">
-        <span style="margin-right:20px;">用户名: editor</span>
-        <span> 密码: any</span>
-      </div>
-
+      
     </el-form>
   </div>
 </template>
