@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <div class="app-text">当前时段共巡检设备{{ device }}台，结果异常{{ abnormal }}台</div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList } from '@/api/result'
 
 export default {
   filters: {
@@ -60,7 +61,9 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      device: 1000,
+      abnormal: 300
     }
   },
   created() {
@@ -77,3 +80,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.app {
+  &-text {
+    font-size: 30px;
+    line-height: 46px;
+  }
+}
+</style>
