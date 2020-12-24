@@ -1,6 +1,11 @@
 <template>
   <div class="app-container">
-    <div class="app-text">当前时段共巡检设备{{ device }}台，结果异常{{ abnormal }}台</div>
+    <div class="app-text">
+      当前时段共巡检设备{{ device }}台，结果异常{{ abnormal }}台
+    </div>
+    <div>
+      <span @click="download">模板下载</span>
+    </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -29,12 +34,24 @@
           {{ scope.row.pageviews }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column
+        class-name="status-col"
+        label="Status"
+        width="110"
+        align="center"
+      >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{
+            scope.row.status
+          }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="Display_time"
+        width="200"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.display_time }}</span>
@@ -45,40 +62,46 @@
 </template>
 
 <script>
-import { getList } from '@/api/result'
+import { getList } from "@/api/result";
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
+        published: "success",
+        draft: "gray",
+        deleted: "danger",
+      };
+      return statusMap[status];
+    },
   },
   data() {
     return {
       list: null,
       listLoading: true,
       device: 1000,
-      abnormal: 300
-    }
+      abnormal: 300,
+    };
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
-      })
-    }
-  }
-}
+      this.listLoading = true;
+      getList().then((response) => {
+        this.list = response.data.items;
+        this.listLoading = false;
+      });
+    },
+    download(){
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = 'http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx';
+      link.click();
+    }, 
+  },
+};
 </script>
 
 <style lang="scss" scoped>

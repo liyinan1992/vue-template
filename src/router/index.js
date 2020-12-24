@@ -64,15 +64,15 @@ export const constantRoutes = [
     children: [
       {
         path: 'result',
-        name: '巡检结果',
+        name: '当前结果',
         component: () => import('@/views/result/index'),
-        meta: { title: '巡检结果', icon: 'table' }
+        meta: { title: '当前结果', icon: 'table' }
       },
       {
-        path: 'resource',
-        name: '资源清单',
-        component: () => import('@/views/resource/index'),
-        meta: { title: '资源清单', icon: 'tree' }
+        path: 'history',
+        name: '历史结果',
+        component: () => import('@/views/history/index'),
+        meta: { title: '历史结果', icon: 'tree' }
       }
     ]
   },
