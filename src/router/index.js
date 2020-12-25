@@ -73,7 +73,13 @@ export const constantRoutes = [
         name: '历史结果',
         component: () => import('@/views/history/index'),
         meta: { title: '历史结果', icon: 'tree' }
-      }
+      },
+      {
+        path: 'file',
+        name: '巡检文件上传',
+        component: () => import('@/views/file/index'),
+        meta: { title: '巡检文件上传', icon: 'el-icon-folder' }
+      },
     ]
   },
 
