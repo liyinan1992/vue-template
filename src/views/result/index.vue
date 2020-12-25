@@ -8,7 +8,7 @@
       </el-col>
       <el-col :span="6">
         <div>
-          <span @click="download">报告下载</span>
+          <el-button @click="download">报告下载</el-button>
         </div>
       </el-col>
     </el-row>
@@ -21,29 +21,24 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
+      <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="IP" width="150">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.author }}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="设备名称" width="200" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="Status"
+        label="整体状态"
         width="110"
         align="center"
       >
@@ -53,11 +48,55 @@
           }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="设备巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="风扇巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="电源巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="CPU巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="内存巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="日志巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="告警巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="环境巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="版本检查" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         align="center"
         prop="created_at"
-        label="Display_time"
-        width="200"
+        label="巡检时间"
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
@@ -69,18 +108,18 @@
 </template>
 
 <script>
-import { getList } from "@/api/result";
+import { getList } from '@/api/result'
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: "success",
-        draft: "gray",
-        deleted: "danger",
-      };
-      return statusMap[status];
-    },
+        published: 'success',
+        draft: 'gray',
+        deleted: 'danger'
+      }
+      return statusMap[status]
+    }
   },
   data() {
     return {
@@ -88,29 +127,29 @@ export default {
       listLoading: true,
       device: 1000,
       abnormal: 300,
-      time: '2020-12-25',
-    };
+      time: '2020-12-25 14:00:00'
+    }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       getList().then((response) => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
+        this.list = response.data.items
+        this.listLoading = false
+      })
     },
     download() {
-      let link = document.createElement("a");
-      link.style.display = "none";
+      const link = document.createElement('a')
+      link.style.display = 'none'
       link.href =
-        "http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx";
-      link.click();
-    },
-  },
-};
+        'http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx'
+      link.click()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

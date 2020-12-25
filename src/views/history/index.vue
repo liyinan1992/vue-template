@@ -8,47 +8,30 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
+      <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.$index +1 }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="巡检结果描述">
         <template slot-scope="scope">
           {{ scope.row.title }}
-        </template>
-      </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        label="Status"
-        width="110"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{
-            scope.row.status
-          }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
         prop="created_at"
-        label="Display_time"
-        width="200"
+        label="巡检时间"
+        width="300"
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.display_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="巡检报告" width="180" align="center">
+        <template slot-scope="scope">
+          <el-button @click="download(scope.row.author)">报告下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,38 +39,46 @@
 </template>
 
 <script>
-import { getList } from "@/api/result";
+import { getList } from '@/api/result'
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: "success",
-        draft: "gray",
-        deleted: "danger",
-      };
-      return statusMap[status];
-    },
+        published: 'success',
+        draft: 'gray',
+        deleted: 'danger'
+      }
+      return statusMap[status]
+    }
   },
   data() {
     return {
       list: null,
-      listLoading: true,
-    };
+      listLoading: true
+    }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       getList().then((response) => {
-        this.list = response.data.items;
-        this.listLoading = false;
-      });
+        this.list = response.data.items
+        this.listLoading = false
+      })
     },
-  },
-};
+    download(filepath) {
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href =
+        'http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx'
+      link.click()
+      console.log(filepath)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
