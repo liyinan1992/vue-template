@@ -21,17 +21,17 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="95">
+      <el-table-column align="center" label="序号" width="95" fixed>
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="IP" width="150">
+      <el-table-column label="IP" width="150" fixed>
         <template slot-scope="scope">
           {{ scope.row.author }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" width="200" align="center">
+      <el-table-column label="设备名称" width="200" align="center" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
@@ -41,6 +41,7 @@
         label="整体状态"
         width="110"
         align="center"
+        fixed
       >
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{
@@ -93,10 +94,16 @@
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="备注" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.author }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         align="center"
         prop="created_at"
         label="巡检时间"
+        width="200"
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
