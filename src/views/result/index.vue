@@ -15,7 +15,7 @@
 
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       element-loading-text="Loading"
       border
       fit
@@ -23,7 +23,7 @@
     >
       <el-table-column align="center" label="序号" width="95" fixed>
         <template slot-scope="scope">
-          {{ scope.$index + 1 }}
+          {{ (currentPage-1)*pagesize + scope.$index + 1 }}
         </template>
       </el-table-column>
       <el-table-column label="IP" width="150" fixed>
@@ -111,6 +111,11 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      layout="prev, pager, next"
+      :total="total"
+      @current-change="current_change"
+    />
   </div>
 </template>
 
@@ -134,7 +139,10 @@ export default {
       listLoading: true,
       device: 1000,
       abnormal: 300,
-      time: '2020-12-25 14:00:00'
+      time: '2020-12-25 14:00:00',
+      total: 30,
+      pagesize: 10,
+      currentPage: 1
     }
   },
   created() {
@@ -154,6 +162,9 @@ export default {
       link.href =
         'http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx'
       link.click()
+    },
+    current_change(currentPage) {
+      this.currentPage = currentPage
     }
   }
 }

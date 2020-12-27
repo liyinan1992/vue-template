@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       element-loading-text="Loading"
       border
       fit
@@ -10,7 +10,7 @@
     >
       <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
-          {{ scope.$index +1 }}
+          {{ (currentPage-1)*pagesize + scope.$index + 1 }}
         </template>
       </el-table-column>
       <el-table-column label="巡检结果描述">
@@ -35,6 +35,11 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      layout="prev, pager, next"
+      :total="total"
+      @current-change="current_change"
+    />
   </div>
 </template>
 
@@ -55,7 +60,10 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      total: 30,
+      pagesize: 10,
+      currentPage: 1
     }
   },
   created() {
@@ -76,6 +84,9 @@ export default {
         'http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx'
       link.click()
       console.log(filepath)
+    },
+    current_change(currentPage) {
+      this.currentPage = currentPage
     }
   }
 }

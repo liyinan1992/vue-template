@@ -23,26 +23,40 @@
     </el-upload>
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       element-loading-text="Loading"
       border
       fit
       highlight-current-row
     >
       <el-table-column align="center" label="序号" width="120">
-        <template slot-scope="scope" />
+        <template slot-scope="scope">
+          {{ (currentPage-1)*pagesize + scope.$index + 1 }}
+        </template>
       </el-table-column>
       <el-table-column label="文件名称" width="800" align="center">
-        <template slot-scope="scope" />
+        <template slot-scope="scope">
+          {{ scope.row.title }}
+        </template>
       </el-table-column>
       <el-table-column label="上传时间" align="center">
-        <template slot-scope="scope" />
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.display_time }}</span>
+        </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      layout="prev, pager, next"
+      :total="total"
+      @current-change="current_change"
+    />
   </div>
 </template>
 
 <script>
+import { getList } from '@/api/result'
+
 export default {
   data() {
     return {
@@ -52,8 +66,16 @@ export default {
           url:
             'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
         }
-      ]
+      ],
+      list: null,
+      listLoading: true,
+      total: 30,
+      pagesize: 10,
+      currentPage: 1
     }
+  },
+  created() {
+    this.fetchData()
   },
   methods: {
     submitUpload() {
@@ -64,6 +86,16 @@ export default {
     },
     handlePreview(file) {
       console.log(file)
+    },
+    fetchData() {
+      this.listLoading = true
+      getList().then((response) => {
+        this.list = response.data.items
+        this.listLoading = false
+      })
+    },
+    current_change(currentPage) {
+      this.currentPage = currentPage
     }
   }
 }
