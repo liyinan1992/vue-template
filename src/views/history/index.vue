@@ -13,9 +13,14 @@
           {{ (currentPage-1)*pagesize + scope.$index + 1 }}
         </template>
       </el-table-column>
+      <el-table-column label="巡检名称" width="150">
+        <template slot-scope="scope">
+          {{ scope.row.patrolname }}
+        </template>
+      </el-table-column>
       <el-table-column label="巡检结果描述">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.description }}
         </template>
       </el-table-column>
       <el-table-column
@@ -26,12 +31,12 @@
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.patroltime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="巡检报告" width="180" align="center">
         <template slot-scope="scope">
-          <el-button @click="download(scope.row.author)">报告下载</el-button>
+          <el-button @click="download(scope.row.patrolresult)">报告下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -44,7 +49,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/result'
+import { getList } from '@/api/history'
 
 export default {
   filters: {
@@ -74,6 +79,7 @@ export default {
       this.listLoading = true
       getList().then((response) => {
         this.list = response.data.items
+        this.total = response.data.total
         this.listLoading = false
       })
     },
@@ -81,7 +87,7 @@ export default {
       const link = document.createElement('a')
       link.style.display = 'none'
       link.href =
-        'http://futest.sctsjkj.com/template/消防火警联网部件设施数据表.xlsx'
+        'http://localhost/patrol/reports/download?fileMame=' + filepath
       link.click()
       console.log(filepath)
     },

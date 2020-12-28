@@ -3,9 +3,11 @@
     <el-upload
       ref="upload"
       class="upload-demo"
-      action="https://jsonplaceholder.typicode.com/posts/"
+      action="http://localhost/patrol/results/"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
+      :on-success="handleSucess"
+      :on-error="handleError"
       :file-list="fileList"
       :auto-upload="false"
       :limit="1"
@@ -18,7 +20,7 @@
         @click="submitUpload"
       >上传到服务器</el-button>
       <div slot="tip" class="el-upload__tip">
-        只能上传压缩文件，且不超过XXM
+        只能上传压缩文件
       </div>
     </el-upload>
     <el-table
@@ -34,15 +36,25 @@
           {{ (currentPage-1)*pagesize + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="文件名称" width="800" align="center">
+      <el-table-column label="文件名称" width="400" align="center">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.filename }}
+        </template>
+      </el-table-column>
+      <el-table-column label="文件大小" width="100" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.size }}
+        </template>
+      </el-table-column>
+      <el-table-column label="文件状态" width="150" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.status }}
         </template>
       </el-table-column>
       <el-table-column label="上传时间" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.uploadtime }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -55,18 +67,12 @@
 </template>
 
 <script>
-import { getList } from '@/api/result'
+import { getList } from '@/api/file'
 
 export default {
   data() {
     return {
-      fileList: [
-        {
-          name: 'food.jpeg',
-          url:
-            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }
-      ],
+      fileList: [],
       list: null,
       listLoading: true,
       total: 30,
@@ -87,10 +93,25 @@ export default {
     handlePreview(file) {
       console.log(file)
     },
+    handleSucess() {
+      console.log('success')
+      this.$notify.success({
+        title: '成功',
+        message: '文件上传成功'
+      })
+    },
+    handleError() {
+      console.log('error')
+      this.$notify.error({
+        title: '失败',
+        message: '文件上传失败'
+      })
+    },
     fetchData() {
       this.listLoading = true
       getList().then((response) => {
         this.list = response.data.items
+        this.total = response.data.total
         this.listLoading = false
       })
     },

@@ -79,7 +79,7 @@ export const constantRoutes = [
         name: '巡检文件上传',
         component: () => import('@/views/file/index'),
         meta: { title: '巡检文件上传', icon: 'el-icon-folder' }
-      },
+      }
     ]
   },
 
