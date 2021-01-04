@@ -35,6 +35,12 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    proxy: {
+      '/patrol': {
+        target: 'http://localhost:9527/patrol',
+        changeOrigin: true
+      }
     }
     // before: require('./mock/mock-server.js')
   },
