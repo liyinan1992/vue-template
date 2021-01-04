@@ -38,8 +38,11 @@ module.exports = {
     },
     proxy: {
       '/patrol': {
-        target: 'http://localhost:9527/patrol',
-        changeOrigin: true
+        target: 'http://10.3.71.162:9527',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/patrol': '/patrol'
+        }
       }
     }
     // before: require('./mock/mock-server.js')
