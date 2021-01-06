@@ -3,7 +3,8 @@
     <el-upload
       ref="upload"
       class="upload-demo"
-      action="http://localhost/patrol/results/"
+      accept=".zip"
+      action="/patrol/results/"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :on-success="handleSucess"
@@ -20,7 +21,7 @@
         @click="submitUpload"
       >上传到服务器</el-button>
       <div slot="tip" class="el-upload__tip">
-        只能上传压缩文件
+        只能上传zip压缩文件
       </div>
     </el-upload>
     <el-table
@@ -38,12 +39,12 @@
       </el-table-column>
       <el-table-column label="文件名称" width="400" align="center">
         <template slot-scope="scope">
-          {{ scope.row.filename }}
+          {{ scope.row.fileName }}
         </template>
       </el-table-column>
       <el-table-column label="文件大小" width="100" align="center">
         <template slot-scope="scope">
-          {{ scope.row.size }}
+          {{ scope.row.fileSize }}
         </template>
       </el-table-column>
       <el-table-column label="文件状态" width="150" align="center">
@@ -54,7 +55,7 @@
       <el-table-column label="上传时间" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.uploadtime }}</span>
+          <span>{{ scope.row.uploadTime }}</span>
         </template>
       </el-table-column>
     </el-table>
