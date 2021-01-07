@@ -13,9 +13,9 @@
           {{ (currentPage-1)*pagesize + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="巡检名称" width="150">
+      <el-table-column label="巡检名称" width="250">
         <template slot-scope="scope">
-          {{ scope.row.patrolname }}
+          {{ scope.row.patrolName }}
         </template>
       </el-table-column>
       <el-table-column label="巡检结果描述">
@@ -31,12 +31,12 @@
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.patroltime }}</span>
+          <span>{{ scope.row.patrolTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="巡检报告" width="180" align="center">
         <template slot-scope="scope">
-          <el-button @click="download(scope.row.patrolresult)">报告下载</el-button>
+          <el-button @click="download(scope.row.patrolResult)">报告下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -87,7 +87,7 @@ export default {
       const link = document.createElement('a')
       link.style.display = 'none'
       link.href =
-        'http://localhost/patrol/reports/download?fileMame=' + filepath
+        '/patrol/reports/' + filepath
       link.click()
       console.log(filepath)
     },

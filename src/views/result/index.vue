@@ -161,7 +161,7 @@ export default {
       const link = document.createElement('a')
       link.style.display = 'none'
       link.href =
-        'http://localhost/patrol/reports/download?fileMame=' + this.filepath
+        '/patrol/reports/' + this.filepath
       link.click()
     },
     current_change(currentPage) {
