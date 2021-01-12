@@ -21,7 +21,7 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="95" fixed>
+      <el-table-column align="center" label="序号" width="80" fixed>
         <template slot-scope="scope">
           {{ (currentPage-1)*pagesize + scope.$index + 1 }}
         </template>
@@ -34,6 +34,11 @@
       <el-table-column label="设备名称" width="200" align="center" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="设备类型" width="100" align="center" fixed>
+        <template slot-scope="scope">
+          <span>{{ scope.row.deviceType }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -51,47 +56,47 @@
       </el-table-column>
       <el-table-column label="设备巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.deviceInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.deviceInfo) }">{{ scope.row.deviceInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="风扇巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.fanInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.fanInfo) }">{{ scope.row.fanInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="电源巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.powerInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.powerInfo) }">{{ scope.row.powerInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="CPU巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.cpuInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.cpuInfo) }">{{ scope.row.cpuInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="内存巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.memoryInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.memoryInfo) }">{{ scope.row.memoryInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="日志巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.logInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.logInfo) }">{{ scope.row.logInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="告警巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.alarmInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.alarmInfo) }">{{ scope.row.alarmInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="环境巡检" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.envInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.envInfo) }">{{ scope.row.envInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="版本检查" width="120" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.versionInfo }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.versionInfo) }">{{ scope.row.versionInfo }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" width="200" align="center">
@@ -126,8 +131,8 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        normal: 'success',
-        abnormal: 'danger'
+        正常: 'success',
+        不正常: 'danger'
       }
       return statusMap[status]
     }
@@ -166,6 +171,9 @@ export default {
     },
     current_change(currentPage) {
       this.currentPage = currentPage
+    },
+    ifAbnormal(stat) {
+      if (stat === '不正常') { return true } else { return false }
     }
   }
 }
@@ -177,5 +185,8 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+.abnormal {
+  background-color: #F56C6C;
 }
 </style>
