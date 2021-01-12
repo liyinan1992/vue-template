@@ -173,7 +173,7 @@ export default {
       this.currentPage = currentPage
     },
     ifAbnormal(stat) {
-      if (stat === '不正常') { return true } else { return false }
+      if (stat === '不正常' || stat === '异常') { return true } else { return false }
     }
   }
 }
@@ -187,6 +187,7 @@ export default {
   }
 }
 .abnormal {
+  padding: 10px;
   background-color: #F56C6C;
 }
 </style>
