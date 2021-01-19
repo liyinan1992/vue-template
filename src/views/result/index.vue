@@ -14,6 +14,7 @@
     </el-row>
 
     <el-table
+      ref="filterTable"
       v-loading="listLoading"
       :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       element-loading-text="Loading"
@@ -45,6 +46,8 @@
         class-name="status-col"
         label="整体状态"
         width="110"
+        :filters="[{ text: '正常', value: '正常' }, { text: '异常', value: '异常' }]"
+        :filter-method="filterTag"
         align="center"
         fixed
       >
@@ -112,7 +115,7 @@
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.patrolTime }}</span>
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.patrolTime) }">{{ scope.row.patrolTime }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -173,7 +176,10 @@ export default {
       this.currentPage = currentPage
     },
     ifAbnormal(stat) {
-      if (stat === '不正常' || stat === '异常') { return true } else { return false }
+      if (stat.indexOf('不正常') !== -1 || stat.indexOf('异常') !== -1) { return true } else { return false }
+    },
+    filterTag(value, row) {
+      return row.status === value
     }
   }
 }
