@@ -152,7 +152,7 @@ export default {
     statusFilter(status) {
       const statusMap = {
         正常: 'success',
-        不正常: 'danger'
+        异常: 'danger'
       }
       return statusMap[status]
     }
