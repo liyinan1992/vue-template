@@ -67,7 +67,7 @@ export default {
       list: null,
       listLoading: true,
       total: 30,
-      pagesize: 10,
+      pagesize: 5,
       currentPage: 1
     }
   },

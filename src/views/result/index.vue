@@ -118,12 +118,29 @@
           <span :class="{ 'abnormal': ifAbnormal(scope.row.patrolTime) }">{{ scope.row.patrolTime }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="操作" width="150" align="center">
+        <template slot-scope="scope">
+          <el-button @click="showAlarmDetail(scope.row)">告警详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       layout="prev, pager, next"
       :total="total"
       @current-change="current_change"
     />
+    <el-dialog
+      title="告警详情"
+      :visible.sync="dialogVisible"
+      width="60%"
+      :before-close="handleClose"
+    >
+      <span>{{ alarmDetail }}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -146,9 +163,11 @@ export default {
       listLoading: true,
       conclusion: null,
       total: 30,
-      pagesize: 10,
+      pagesize: 5,
       currentPage: 1,
-      filepath: null
+      filepath: null,
+      dialogVisible: false,
+      alarmDetail: null
     }
   },
   created() {
@@ -180,6 +199,10 @@ export default {
     },
     filterTag(value, row) {
       return row.status === value
+    },
+    showAlarmDetail(row) {
+      this.dialogVisible = true
+      this.alarmDetail = row.alarmDetail
     }
   }
 }
@@ -188,8 +211,8 @@ export default {
 <style lang="scss" scoped>
 .app {
   &-text {
-    font-size: 30px;
-    line-height: 46px;
+    font-size: 20px;
+    line-height: 30px;
   }
 }
 .abnormal {
