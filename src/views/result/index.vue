@@ -97,6 +97,16 @@
           <span :class="{ 'abnormal': ifAbnormal(scope.row.envInfo) }">{{ scope.row.envInfo }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="VRRP巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.vrrpInfo) }">{{ scope.row.vrrpInfo }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="NTP巡检" width="120" align="center">
+        <template slot-scope="scope">
+          <span :class="{ 'abnormal': ifAbnormal(scope.row.ntpInfo) }">{{ scope.row.ntpInfo }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="版本检查" width="120" align="center">
         <template slot-scope="scope">
           <span :class="{ 'abnormal': ifAbnormal(scope.row.versionInfo) }">{{ scope.row.versionInfo }}</span>
@@ -133,7 +143,6 @@
       title="告警详情"
       :visible.sync="dialogVisible"
       width="60%"
-      :before-close="handleClose"
     >
       <span>{{ alarmDetail }}</span>
       <span slot="footer" class="dialog-footer">

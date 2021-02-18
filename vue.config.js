@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       '/patrol': {
-        target: 'http://10.3.71.162:9527',
+        target: 'http://10.3.71.133:9527',
         changeOrigin: true,
         pathRewrite: {
           '^/patrol': '/patrol'
