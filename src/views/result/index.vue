@@ -1,5 +1,22 @@
 <template>
   <div class="app-container">
+    <el-form ref="form" :inline="true" :model="form" label-width="120px">
+      <el-form-item label="状态">
+        <el-select v-model="form.status" multiple placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="doSearch">查询</el-button>
+        <el-button @click="doCancel">重置</el-button>
+      </el-form-item>
+    </el-form>
+
     <el-row>
       <el-col :span="18">
         <div class="app-text">
@@ -14,7 +31,6 @@
     </el-row>
 
     <el-table
-      ref="filterTable"
       v-loading="listLoading"
       :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       element-loading-text="Loading"
@@ -46,8 +62,6 @@
         class-name="status-col"
         label="整体状态"
         width="110"
-        :filters="[{ text: '正常', value: '正常' }, { text: '异常', value: '异常' }]"
-        :filter-method="filterTag"
         align="center"
         fixed
       >
@@ -175,18 +189,36 @@ export default {
       total: 30,
       pagesize: 5,
       currentPage: 1,
+      form: {
+        ip: '',
+        status: ['正常', '异常']
+      },
+      options: [{
+        value: '正常',
+        label: '正常'
+      }, {
+        value: '异常',
+        label: '异常'
+      }],
       filepath: null,
       dialogVisible: false,
       alarmDetail: null
     }
   },
   created() {
-    this.fetchData()
+    this.fetchData(this.form)
   },
   methods: {
-    fetchData() {
+    fetchData(form) {
       this.listLoading = true
-      getList().then((response) => {
+      // status 1:正常，2:异常，0:全部
+      var params = {
+        ip: '',
+        status: ''
+      }
+      params.ip = form.ip
+      if (this.arrayEqual(form.status, ['正常'])) { params.status = 1 } else if (this.arrayEqual(form.status, ['异常'])) { params.status = 2 } else { params.status = 0 }
+      getList(params).then((response) => {
         this.list = response.data.items
         this.conclusion = response.data.conclusion
         this.total = response.data.total
@@ -207,12 +239,26 @@ export default {
     ifAbnormal(stat) {
       if (stat.indexOf('不正常') !== -1 || stat.indexOf('异常') !== -1) { return true } else { return false }
     },
-    filterTag(value, row) {
-      return row.status === value
+    doCancel() {
+      this.form = {
+        ip: '',
+        status: ['正常', '异常']
+      }
+    },
+    doSearch() {
+      this.fetchData(this.form)
     },
     showAlarmDetail(row) {
       this.dialogVisible = true
       this.alarmDetail = row.alarmDetail
+    },
+    arrayEqual(arr1, arr2) {
+      if (arr1 === arr2) return true
+      if (arr1.length !== arr2.length) return false
+      for (var i = 0; i < arr1.length; ++i) {
+        if (arr1[i] !== arr2[i]) return false
+      }
+      return true
     }
   }
 }
