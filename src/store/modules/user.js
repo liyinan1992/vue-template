@@ -39,13 +39,7 @@ const actions = {
         setToken(data.token)
         resolve()
       }).catch(error => {
-        // 取消失败验证
-        // reject(error)
-        const data = { token: 'admin-token' }
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        console.log(error)
-        resolve()
+        reject(error)
       })
     })
   },
@@ -66,14 +60,7 @@ const actions = {
         commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {
-        // 取消失败验证
-        // reject(error)
-        const data = { 'roles': ['admin'], 'introduction': 'I am a super administrator', 'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', 'name': 'Admin' }
-        const { name, avatar } = data
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        console.log(error)
-        resolve(data)
+        reject(error)
       })
     })
   },
@@ -87,13 +74,7 @@ const actions = {
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
-        // 取消失败验证
-        // reject(error)
-        removeToken()
-        resetRouter()
-        commit('RESET_STATE')
-        console.log(error)
-        resolve()
+        reject(error)
       })
     })
   },
